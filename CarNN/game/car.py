@@ -13,15 +13,15 @@ class Car:
         self.xSpeed = 0
         self.ySpeed = 0
         #current x, y acceleration
-        self.xAcceleration = 0
-        self.yAcceleration = 0
+        #self.xAcceleration = 0
+        #self.yAcceleration = 0
         #max, min for acceleration, speed
         self.maxAcceleration = 10
         self.maxSpeed = 42069
         self.minSpeed = -1
         #current acceleration
         #self.rAcceleration = 0
-        self.accelerationAngle = 0
+        #self.accelerationAngle = 0
         #angles
         self.angle = angle
         self.angularSpeed = 0
@@ -33,19 +33,19 @@ class Car:
     def drive(self, acceleration, angular):
 
         #turn
-        self.turn(angular)
+        accelerationAngle = self.turn(angular)
 
         # get new rAcceleration vector
 
-        self.xAcceleration += m.sin(self.accelerationAngle) * acceleration
-        self.yAcceleration += m.cos(self.accelerationAngle) * acceleration
+        xAcceleration = m.sin(accelerationAngle) * acceleration
+        yAcceleration = m.cos(accelerationAngle) * acceleration
         #self.rAcceleration += m.sqrt(self.xAcceleration**2 + self.yAcceleration**2)
         #meil pole ju vaja resultanti??
 
         # find new speed
 
-        self.xSpeed += self.xAcceleration
-        self.ySpeed += self.yAcceleration
+        self.xSpeed += xAcceleration
+        self.ySpeed += yAcceleration
 
         # find new location
 
@@ -60,9 +60,10 @@ class Car:
 
     def turn(self, angular):
         self.angle += angular
-        self.accelerationAngle = 360
-        while self.accelerationAngle > 90:
-            self.accelerationAngle -= 90
+        accelerationAngle = 360
+        while accelerationAngle > 90:
+            accelerationAngle -= 90
+        return m.radians(accelerationAngle)
 
         """
         angularSpeed = self.angle - desiredAngle
