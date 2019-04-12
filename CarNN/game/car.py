@@ -12,40 +12,49 @@ class Car:
         #current x, y speed
         self.xSpeed = 0
         self.ySpeed = 0
-        #current x, y acceleration
-        self.xAcceleration = 0
-        self.yAcceleration = 0
         #max, min for acceleration, speed
         self.maxAcceleration = 10
         self.maxSpeed = 42069
         self.minSpeed = -1
         #current acceleration
         #self.rAcceleration = 0
-        self.accelerationAngle = 0
         #angles
         self.angle = angle
         self.angularSpeed = 0
         self.maxAngularSpeed = 1
-
+        #physics
+        self.frictionVar = 0.2
+        self.mass = 7 # Saints Number
+        self.gravity = 10
 
     #drive, movement function
 
     def drive(self, acceleration, angular):
 
         #turn
-        self.turn(angular)
+        accelerationAngle = self.turn(angular)
 
         # get new rAcceleration vector
 
-        self.xAcceleration += m.sin(self.accelerationAngle) * acceleration
-        self.yAcceleration += m.cos(self.accelerationAngle) * acceleration
+        xAcceleration = m.sin(m.radians(accelerationAngle)) * acceleration
+        yAcceleration = m.cos(m.radians(accelerationAngle)) * acceleration
         #self.rAcceleration += m.sqrt(self.xAcceleration**2 + self.yAcceleration**2)
         #meil pole ju vaja resultanti??
 
         # find new speed
 
-        self.xSpeed += self.xAcceleration
-        self.ySpeed += self.yAcceleration
+        self.xSpeed += xAcceleration
+        self.ySpeed += yAcceleration
+        speedAngle = m.atan(self.xSpeed / self.ySpeed)
+
+        # apply friction
+
+        friction = self.mass * self.gravity * self.frictionVar
+        xFriction = -m.sin(speedAngle) * friction
+        yFriction = -m.cos(speedAngle) * friction
+
+        self.xSpeed += xFriction
+        self.ySpeed += yFriction
 
         # find new location
 
@@ -60,9 +69,10 @@ class Car:
 
     def turn(self, angular):
         self.angle += angular
-        self.accelerationAngle = 360
-        while self.accelerationAngle > 90:
-            self.accelerationAngle -= 90
+        accelerationAngle = 360
+        while accelerationAngle > 90:
+            accelerationAngle -= 90
+        return accelerationAngle
 
         """
         angularSpeed = self.angle - desiredAngle
