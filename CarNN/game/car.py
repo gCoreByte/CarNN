@@ -19,11 +19,15 @@ class Car:
         self.maxAcceleration = 10
         self.maxSpeed = 42069
         self.minSpeed = -1
+        #current acceleration
         self.rAcceleration = 0
         self.accelerationAngle = 0
+        #angles
         self.angle = angle
         self.angularSpeed = 0
         self.maxAngularSpeed = 1
+
+
 
     #drive, movement function
 
@@ -49,7 +53,9 @@ class Car:
         self.x += self.xSpeed
         self.y += self.ySpeed
 
-        # checking crash
+        # check crash, TODO
+
+        self.haveCrashed()
 
     #turning, handles angular speed, accelerationAngle
 
@@ -71,5 +77,6 @@ class Car:
     # checking if we've crashed
 
     def haveCrashed(self):
-        #todo
-        pass
+        #hopefully we havent
+        #TODO
+        return False
