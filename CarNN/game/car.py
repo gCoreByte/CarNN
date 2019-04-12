@@ -36,8 +36,8 @@ class Car:
 
         # get new rAcceleration vector
 
-        xAcceleration = m.sin(m.radians(accelerationAngle)) * acceleration
-        yAcceleration = m.cos(m.radians(accelerationAngle)) * acceleration
+        xAcceleration = m.sin(accelerationAngle) * acceleration
+        yAcceleration = m.cos(accelerationAngle) * acceleration
         #self.rAcceleration += m.sqrt(self.xAcceleration**2 + self.yAcceleration**2)
         #meil pole ju vaja resultanti??
 
@@ -72,7 +72,7 @@ class Car:
         accelerationAngle = 360
         while accelerationAngle > 90:
             accelerationAngle -= 90
-        return accelerationAngle
+        return m.radians(accelerationAngle)
 
         """
         angularSpeed = self.angle - desiredAngle
