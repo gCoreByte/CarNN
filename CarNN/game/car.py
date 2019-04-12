@@ -20,13 +20,12 @@ class Car:
         self.maxSpeed = 42069
         self.minSpeed = -1
         #current acceleration
-        self.rAcceleration = 0
+        #self.rAcceleration = 0
         self.accelerationAngle = 0
         #angles
         self.angle = angle
         self.angularSpeed = 0
         self.maxAngularSpeed = 1
-
 
 
     #drive, movement function
