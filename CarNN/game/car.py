@@ -9,6 +9,8 @@ class Car:
         #current pos
         self.x = x
         self.y = y
+        self.width = 10
+        self.height = 20
         #current x, y speed
         self.xSpeed = 0
         self.ySpeed = 0
@@ -18,7 +20,6 @@ class Car:
         #max, min for acceleration, speed
         self.maxAcceleration = 10
         self.maxSpeed = 42069
-        self.minSpeed = -1
         #current acceleration
         #self.rAcceleration = 0
         #self.accelerationAngle = 0
@@ -30,7 +31,7 @@ class Car:
 
     #drive, movement function
 
-    def drive(self, acceleration, angular):
+    def drive(self, acceleration, angular, Map):
 
         #turn
         accelerationAngle = self.turn(angular)
@@ -54,13 +55,13 @@ class Car:
 
         # check crash, TODO
 
-        self.haveCrashed()
+        self.haveCrashed(Map)
 
     #turning, handles angular speed, accelerationAngle
 
     def turn(self, angular):
         self.angle += angular
-        accelerationAngle = 360
+        accelerationAngle = self.angle
         while accelerationAngle > 90:
             accelerationAngle -= 90
         return m.radians(accelerationAngle)
@@ -76,7 +77,14 @@ class Car:
 
     # checking if we've crashed
 
-    def haveCrashed(self):
+    def haveCrashed(self, Map):
         #hopefully we havent
         #TODO
         return False
+
+        # implementing rays
+
+        #for func in Map.genfunc:
+
+
+
