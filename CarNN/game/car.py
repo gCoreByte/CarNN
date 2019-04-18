@@ -9,27 +9,26 @@ class Car:
         #current pos
         self.x = x
         self.y = y
+        self.width = 10
+        self.height = 20
         #current x, y speed
         self.xSpeed = 0
         self.ySpeed = 0
         #max, min for acceleration, speed
         self.maxAcceleration = 10
         self.maxSpeed = 42069
-        self.minSpeed = -1
-        #current acceleration
-        #self.rAcceleration = 0
         #angles
         self.angle = angle
         self.angularSpeed = 0
         self.maxAngularSpeed = 1
         #physics
-        self.frictionVar = 0.2
+        self.frictionVar = 0.8
         self.mass = 7 # Saints Number
         self.gravity = 10
 
     #drive, movement function
 
-    def drive(self, acceleration, angular):
+    def drive(self, acceleration, angular, Map):
 
         #turn
         accelerationAngle = self.turn(angular)
@@ -45,6 +44,7 @@ class Car:
 
         self.xSpeed += xAcceleration
         self.ySpeed += yAcceleration
+
         speedAngle = m.atan(self.xSpeed / self.ySpeed)
 
         # apply friction
@@ -63,29 +63,29 @@ class Car:
 
         # check crash, TODO
 
-        self.haveCrashed()
+        self.haveCrashed(Map)
 
     #turning, handles angular speed, accelerationAngle
 
     def turn(self, angular):
         self.angle += angular
-        accelerationAngle = 360
+
+        accelerationAngle = self.angle
+
         while accelerationAngle > 90:
             accelerationAngle -= 90
         return m.radians(accelerationAngle)
 
-        """
-        angularSpeed = self.angle - desiredAngle
-        if self.angularSpeed > self.maxAngularSpeed:
-            self.angularSpeed = self.maxAngularSpeed
-        elif abs(self.angularSpeed) > self.maxAngularSpeed:
-            self.angularSpeed = -self.maxAngularSpeed
-        self.angle += angularSpeed
-        """
-
     # checking if we've crashed
 
-    def haveCrashed(self):
+    def haveCrashed(self, Map):
         #hopefully we havent
         #TODO
         return False
+
+        # implementing rays
+
+        #for func in Map.genfunc:
+
+
+
