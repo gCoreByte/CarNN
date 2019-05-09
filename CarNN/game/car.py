@@ -1,32 +1,43 @@
 import math as m
+import pygame as pyg
+import os
 
-class Car:
+class Car(pyg.sprite.Sprite):
 
     #initialize variables
 
-    def __init__(self, x, y, angle):
+    def __init__(self, x, y, surface, angle = 270):
 
         #current pos
         self.x = x
         self.y = y
-        self.width = 10
-        self.height = 20
+        self.width = 20
+        self.height = 40
         #current x, y speed
         self.xSpeed = 0
         self.ySpeed = 0
-        #current x, y acceleration
-        #self.xAcceleration = 0
-        #self.yAcceleration = 0
         #max, min for acceleration, speed
         self.maxAcceleration = 10
         self.maxSpeed = 42069
-        #current acceleration
-        #self.rAcceleration = 0
-        #self.accelerationAngle = 0
         #angles
         self.angle = angle
         self.angularSpeed = 0
         self.maxAngularSpeed = 1
+        #physics
+        self.frictionVar = 0.8
+        self.mass = 7 # Saints Number
+        self.gravity = 10
+
+        pyg.sprite.Sprite.__init__(self)
+        self.image = pyg.image.load(os.path.join('game', 'car.png')).convert()
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+    def update(self):
+        pyg.transform.rotate(self.rect)
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 
     #drive, movement function
@@ -48,6 +59,17 @@ class Car:
         self.xSpeed += xAcceleration
         self.ySpeed += yAcceleration
 
+        speedAngle = m.atan(self.xSpeed / self.ySpeed)
+
+        # apply friction
+
+        friction = self.mass * self.gravity * self.frictionVar
+        xFriction = -m.sin(speedAngle) * friction
+        yFriction = -m.cos(speedAngle) * friction
+
+        self.xSpeed += xFriction
+        self.ySpeed += yFriction
+
         # find new location
 
         self.x += self.xSpeed
@@ -60,20 +82,17 @@ class Car:
     #turning, handles angular speed, accelerationAngle
 
     def turn(self, angular):
-        self.angle += angular
+        if turnout == 0:
+            self.angle += angular
+        if turnout == 1:
+            self.angle -= angular
+
+
         accelerationAngle = self.angle
+
         while accelerationAngle > 90:
             accelerationAngle -= 90
         return m.radians(accelerationAngle)
-
-        """
-        angularSpeed = self.angle - desiredAngle
-        if self.angularSpeed > self.maxAngularSpeed:
-            self.angularSpeed = self.maxAngularSpeed
-        elif abs(self.angularSpeed) > self.maxAngularSpeed:
-            self.angularSpeed = -self.maxAngularSpeed
-        self.angle += angularSpeed
-        """
 
     # checking if we've crashed
 
