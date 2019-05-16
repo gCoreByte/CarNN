@@ -20,13 +20,15 @@ class Car(pyg.sprite.Sprite):
         self.maxAcceleration = 10
         self.maxSpeed = 42069
         #angles
+        self.preangle = 0 #what angle the car has before rotation
         self.angle = angle
-        self.angularSpeed = 0
-        self.maxAngularSpeed = 1
+        self.angularSpeed = 1
+        self.maxAngularSpeed = 1 #???
         #physics
         self.frictionVar = 0.8
         self.mass = 7 # Saints Number
         self.gravity = 10
+        self.basefriction = 1
 
         pyg.sprite.Sprite.__init__(self)
         self.image = pyg.image.load(os.path.join('game', 'car.png')).convert()
@@ -35,22 +37,35 @@ class Car(pyg.sprite.Sprite):
         self.rect.y = self.y
 
     def update(self):
-        pyg.transform.rotate(self.rect)
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.image = pyg.transform.rotate(self.image, self.angle - self.preangle)
+        self.rect = self.image.get_rect(center = self.rect.center)
+        self.preangle = self.angle
 
+    #turning function
+
+    def turn(self, angularspeed):
+        if turnout == 0:
+            self.angle += angularspeed
+        elif turnout == 1:
+            self.angle -= angularspeed
+
+
+        #accelerationAngle = self.angle
+        #while accelerationAngle > 90:
+        #   accelerationAngle -= 90
+        #return m.radians(accelerationAngle)
 
     #drive, movement function
 
-    def drive(self, acceleration, angular, Map):
+    def drive(self, acceleration, Map):
 
         #turn
-        accelerationAngle = self.turn(angular)
+        turn(self.angularSpeed)
 
-        # get new rAcceleration vector
+        # get new Acceleration vector
 
-        xAcceleration = m.sin(accelerationAngle) * acceleration
-        yAcceleration = m.cos(accelerationAngle) * acceleration
+        xAcceleration = m.sin(self.angle) * acceleration
+        yAcceleration = m.cos(self.angle) * acceleration
         #self.rAcceleration += m.sqrt(self.xAcceleration**2 + self.yAcceleration**2)
         #meil pole ju vaja resultanti??
 
@@ -64,8 +79,8 @@ class Car(pyg.sprite.Sprite):
         # apply friction
 
         friction = self.mass * self.gravity * self.frictionVar
-        xFriction = -m.sin(speedAngle) * friction
-        yFriction = -m.cos(speedAngle) * friction
+        xFriction = -m.sin(speedAngle) * friction - self.basefriction
+        yFriction = -m.cos(speedAngle) * friction - self.basefriction
 
         self.xSpeed += xFriction
         self.ySpeed += yFriction
@@ -79,20 +94,6 @@ class Car(pyg.sprite.Sprite):
 
         self.haveCrashed(Map)
 
-    #turning, handles angular speed, accelerationAngle
-
-    def turn(self, angular):
-        if turnout == 0:
-            self.angle += angular
-        if turnout == 1:
-            self.angle -= angular
-
-
-        accelerationAngle = self.angle
-
-        while accelerationAngle > 90:
-            accelerationAngle -= 90
-        return m.radians(accelerationAngle)
 
     # checking if we've crashed
 

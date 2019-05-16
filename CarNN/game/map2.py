@@ -12,8 +12,7 @@ goingdown = False
 #4 - hard turn counterclockwise
 #5 - half road
 #6 - hard turn clockwise
-#7 - uturn counterclockwise
-#8 - uturn clockwise
+
 
 
 mapguide = [1,5,4,1,5,2,2,1,6,6,1,2,5,2,1,5,4,1]
@@ -30,6 +29,8 @@ while Maptime == True:
         build = None
 
     done = False
+
+#Checks the direction the road is going and sets parameters accordingly
 
     if goingright:
         xmove = 270
@@ -52,18 +53,21 @@ while Maptime == True:
         ywidth = 0
         xwidth = -90
 
+#straight road
     if build == 1:
         pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + xmove, ymap + ymove), 5)
         pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth), 5)
         xmap = xmap + xmove
         ymap = ymap + ymove
 
+#straight halfroad
     if build == 5:
         pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + xmove/2, ymap + ymove/2), 5)
         pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xmove/2 + xwidth, ymap + ymove/2 + ywidth), 5)
         xmap = xmap + xmove/2
         ymap = ymap + ymove/2
 
+#turnleft
     if build == 2 and not done: #soft
         if goingright:
             pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 90, ymap - 90), 5)
@@ -101,6 +105,7 @@ while Maptime == True:
             goingright = False
             done = True
 
+#turnright
     if build == 3:  #soft
         if goingright:
             pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 180, ymap + 180), 5)
@@ -138,7 +143,7 @@ while Maptime == True:
             goingright = False
             done = True
 
-
+#turnlefthard
     if build == 4: #hard
         if goingright and done == False:
             pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 90, ymap), 5)
@@ -184,6 +189,7 @@ while Maptime == True:
             goingdown = False
             done = True
 
+#turnrighthard
     if build == 6: #hard
         if goingright and done == False:
             pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 180, ymap), 5)
@@ -214,6 +220,7 @@ while Maptime == True:
             pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth - 90), (xmap + xwidth + 90, ymap + ywidth - 90), 5)
             ymap = ymap - 180
             xmap = xmap + 180
+
             goingright = True
             goingup = False
             done = True
@@ -228,3 +235,5 @@ while Maptime == True:
             goingleft = True
             goingdown = False
             done = True
+
+pyg.display.update()
