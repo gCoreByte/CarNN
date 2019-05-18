@@ -20,35 +20,35 @@ class Car(pyg.sprite.Sprite):
         self.maxAcceleration = 10
         self.maxSpeed = 42069
         #angles
-        self.preangle = 0 #what angle the car has before rotation
         self.angle = angle
         self.angularSpeed = 1
         self.maxAngularSpeed = 1 #???
         #physics
-        self.frictionVar = 0.8
+        self.frictionVar = 0.025
         self.mass = 7 # Saints Number
         self.gravity = 10
         self.basefriction = 1
 
         pyg.sprite.Sprite.__init__(self)
-        self.image = pyg.image.load(os.path.join('game', 'car.png')).convert()
-        self.rect = self.image.get_rect()
+        self.image = None
+        self.imgclean = pyg.image.load(os.path.join('game', 'car.png')).convert()
+        self.imgclean.set_colorkey((34, 177, 76))
+        self.rect = self.imgclean.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
 
     def update(self):
-        self.image = pyg.transform.rotate(self.image, self.angle - self.preangle)
-        self.rect = self.image.get_rect(center = self.rect.center)
-        self.preangle = self.angle
+            self.image = pyg.transform.rotate(self.imgclean, self.angle)
+            self.rect = self.image.get_rect(center = (self.x, self.y))
 
     #turning function
-
+    """
     def turn(self, angularspeed):
         if turnout == 0:
             self.angle += angularspeed
         elif turnout == 1:
             self.angle -= angularspeed
-
+    """
 
         #accelerationAngle = self.angle
         #while accelerationAngle > 90:
@@ -57,36 +57,52 @@ class Car(pyg.sprite.Sprite):
 
     #drive, movement function
 
-    def drive(self, acceleration, Map):
-
+    def drive(self, acceleration, turnout,  Map):
         #turn
-        turn(self.angularSpeed)
-
+        if turnout == 0:
+            self.angle += self.angularSpeed
+        elif turnout == 1:
+            self.angle -= self.angularSpeed
         # get new Acceleration vector
 
-        xAcceleration = m.sin(self.angle) * acceleration
-        yAcceleration = m.cos(self.angle) * acceleration
+        xAcceleration = -m.sin(m.radians(self.angle)) * acceleration
+        yAcceleration = -m.cos(m.radians(self.angle)) * acceleration
         #self.rAcceleration += m.sqrt(self.xAcceleration**2 + self.yAcceleration**2)
         #meil pole ju vaja resultanti??
 
         # find new speed
-
+        print(acceleration, xAcceleration, yAcceleration)
         self.xSpeed += xAcceleration
         self.ySpeed += yAcceleration
 
-        speedAngle = m.atan(self.xSpeed / self.ySpeed)
+
+        # speedAngle = m.atan(self.xSpeed / self.ySpeed)
 
         # apply friction
-
+        try:
+            if self.xSpeed > 0.01 or self.xSpeed < -0.01:
+                self.xSpeed = self.xSpeed - self.xSpeed * self.frictionVar
+            else:
+                self.xSpeed = 0
+        except:
+            None
+        try:
+            if self.ySpeed > 0.01 or self.ySpeed < -0.01:
+                self.ySpeed = self.ySpeed - self.ySpeed * self.frictionVar
+            else:
+                self.ySpeed = 0
+        except:
+            None
+        """
         friction = self.mass * self.gravity * self.frictionVar
-        xFriction = -m.sin(speedAngle) * friction - self.basefriction
-        yFriction = -m.cos(speedAngle) * friction - self.basefriction
+        xFriction = -m.sin(speedAngle) * friction
+        yFriction = -m.cos(speedAngle) * friction
 
         self.xSpeed += xFriction
         self.ySpeed += yFriction
-
+        """
         # find new location
-
+        #print(self.angle, self.x, self.y, self.xSpeed, self.ySpeed)
         self.x += self.xSpeed
         self.y += self.ySpeed
 

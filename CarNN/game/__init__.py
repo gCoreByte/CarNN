@@ -1,2 +1,2 @@
 from .car import *
-from .map import *
+from .map2 import *
