@@ -146,7 +146,7 @@ class Car(pyg.sprite.Sprite):
             for j, point in enumerate(pointLoc):
                 if closestValue[j][0] > point_distance(point, (self.x, self.y)):
                     closestValue[j] = [point_distance(point, (self.x, self.y)), i]
-                    
+
 
 
 
