@@ -7,7 +7,7 @@ screen = pyg.display.set_mode((1440, 900))
 pyg.display.set_caption("Simulation")
 
 all_sprites = pyg.sprite.Group()
-car = Car(400, 830, screen)
+car = Car(400, 830, track(screen))
 all_sprites.add(car)
 
 run = True
@@ -28,7 +28,7 @@ while run:
         acceleration = 0.05
     if keys[pyg.K_DOWN]:
         acceleration = -0.03
-    car.drive(acceleration, turnout, None)
+    car.drive(acceleration, turnout)
     for event in pyg.event.get():
         if event.type == pyg.QUIT:
             run = False
