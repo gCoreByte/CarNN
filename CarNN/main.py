@@ -12,6 +12,7 @@ all_sprites.add(car)
 
 run = True
 while run:
+    pyg.time.wait(6)
     acceleration = 0
     turnout = None
     screen.fill((0, 0, 0))
@@ -25,7 +26,7 @@ while run:
     if keys[pyg.K_LEFT]:
         turnout = 0
     if keys[pyg.K_UP]:
-        acceleration += 0.05
+        acceleration += 0.015
     if keys[pyg.K_DOWN]:
         acceleration -= 0.03
     car.drive(acceleration, turnout, None)

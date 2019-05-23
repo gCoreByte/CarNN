@@ -14,6 +14,7 @@ class Car(pyg.sprite.Sprite):
         self.width = 20
         self.height = 40
         #current x, y speed
+        self.speed = 0
         self.xSpeed = 0
         self.ySpeed = 0
         #max, min for acceleration, speed
@@ -24,7 +25,8 @@ class Car(pyg.sprite.Sprite):
         self.angularSpeed = 1
         self.maxAngularSpeed = 1 #???
         #physics
-        self.frictionVar = 0.025
+        self.wafriction = 0.04
+        self.frictionVar = 0.05
         self.mass = 7 # Saints Number
         self.gravity = 10
         self.basefriction = 1
@@ -63,22 +65,27 @@ class Car(pyg.sprite.Sprite):
             self.angle += self.angularSpeed
         elif turnout == 1:
             self.angle -= self.angularSpeed
-        # get new Acceleration vector
 
-        xAcceleration = -m.sin(m.radians(self.angle)) * acceleration
-        yAcceleration = -m.cos(m.radians(self.angle)) * acceleration
-        #self.rAcceleration += m.sqrt(self.xAcceleration**2 + self.yAcceleration**2)
         #meil pole ju vaja resultanti??
 
         # find new speed
-        print(acceleration, xAcceleration, yAcceleration)
-        self.xSpeed += xAcceleration
-        self.ySpeed += yAcceleration
+        self.speed += acceleration
+        self.xSpeed += -m.sin(m.radians(self.angle)) * self.speed
+        self.ySpeed += -m.cos(m.radians(self.angle)) * self.speed
 
 
         # speedAngle = m.atan(self.xSpeed / self.ySpeed)
 
         # apply friction
+        print(self.speed)
+        try:
+            if self.speed > 0.01 or self.speed < -0.01:
+                self.speed = self.speed - self.speed * self.wafriction
+            else:
+                self.speed = 0
+        except:
+            None
+
         try:
             if self.xSpeed > 0.01 or self.xSpeed < -0.01:
                 self.xSpeed = self.xSpeed - self.xSpeed * self.frictionVar
