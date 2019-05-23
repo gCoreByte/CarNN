@@ -1,12 +1,13 @@
 import math as m
 import pygame as pyg
 import os
+from .util import line_intersection, point_distance
 
 class Car(pyg.sprite.Sprite):
 
     #initialize variables
 
-    def __init__(self, x, y, surface, angle = 270):
+    def __init__(self, x, y, tuples, angle = 270):
 
         #current pos
         self.x = x
@@ -19,7 +20,7 @@ class Car(pyg.sprite.Sprite):
         self.ySpeed = 0
         #max, min for acceleration, speed
         self.maxAcceleration = 10
-        self.maxSpeed = 42069
+        self.maxSpeed = 50
         #angles
         self.angle = angle
         self.angularSpeed = 1
@@ -30,6 +31,7 @@ class Car(pyg.sprite.Sprite):
         self.mass = 7 # Saints Number
         self.gravity = 10
         self.basefriction = 1
+        self.tuples = tuples
 
         pyg.sprite.Sprite.__init__(self)
         self.image = None
@@ -59,7 +61,7 @@ class Car(pyg.sprite.Sprite):
 
     #drive, movement function
 
-    def drive(self, acceleration, turnout,  Map):
+    def drive(self, acceleration, turnout):
         #turn
         if turnout == 0:
             self.angle += self.angularSpeed
@@ -115,19 +117,43 @@ class Car(pyg.sprite.Sprite):
 
         # check crash, TODO
 
-        self.haveCrashed(Map)
+        self.haveCrashed()
 
 
     # checking if we've crashed
 
-    def haveCrashed(self, Map):
+    def haveCrashed(self):
         #hopefully we havent
         #TODO
-        return False
+        #return False
 
         # implementing rays
+        front_ray = None
+        front_right_ray = None
+        right_ray = None
+        back_right_ray = None
+        back_ray = None
+        back_left_ray = None
+        left_ray = None
+        front_left_ray = None
 
-        #for func in Map.genfunc:
+        closestValue = [0, 0, 0, 0, 0, 0, 0, 0]
+
+        for i, line in enumerate(self.tuples):
+            pointLoc = []
+            pointLoc.append(line_intersection(line, front_ray))
+            pointLoc.append(line_intersection(line, front_right_ray))
+            pointLoc.append(line_intersection(line, right_ray))
+            pointLoc.append(line_intersection(line, back_right_ray))
+            pointLoc.append(line_intersection(line, back_ray))
+            pointLoc.append(line_intersection(line, back_left_ray))
+            pointLoc.append(line_intersection(line, left_ray))
+            pointLoc.append(line_intersection(line, front_left_ray))
+
+            for j, point in enumerate(pointLoc):
+                if closestValue[j][0] > point_distance(point, (self.x, self.y)):
+                    closestValue[j] = [point_distance(point, (self.x, self.y)), i]
+
 
 
 
