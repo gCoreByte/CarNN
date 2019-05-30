@@ -1,13 +1,13 @@
 import math as m
 import pygame as pyg
 import os
-from .util import line_intersection, point_distance
+from .util import line_intersection, point_distance, point_generator
 
 class Car(pyg.sprite.Sprite):
 
     #initialize variables
 
-    def __init__(self, x, y, tuples, angle = 270):
+    def __init__(self, x, y, tuples, equations, angle = 270):
 
         #current pos
         self.x = x
@@ -32,6 +32,7 @@ class Car(pyg.sprite.Sprite):
         self.gravity = 10
         self.basefriction = 1
         self.tuples = tuples
+        self.equations = equations
 
         pyg.sprite.Sprite.__init__(self)
         self.image = None
@@ -117,7 +118,7 @@ class Car(pyg.sprite.Sprite):
 
         # check crash, TODO
 
-        #self.haveCrashed()
+        self.haveCrashed()
 
 
     # checking if we've crashed
@@ -148,8 +149,8 @@ class Car(pyg.sprite.Sprite):
         self.angle - 270,
         self.angle + 26.565
         ]
-        front_ray = ((self.x, self.y), ())
-        front_right_ray = ((self.x, self.y), ())
+        front_ray = ((self.x, self.y), point_generator(angles[0], 20))
+        front_right_ray = ((self.x, self.y), point_generator(angles[0], math.sqrt()))
         right_ray = ((self.x, self.y), ())
         back_right_ray = ((self.x, self.y), ())
         back_ray = ((self.x, self.y), ())

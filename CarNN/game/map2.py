@@ -294,4 +294,4 @@ def track(screen):
                 done = True
     for i in tuples:
         equations.append(equation_generator(i[0], i[1]))
-    print(equations)
+    return tuples, equations

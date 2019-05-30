@@ -22,7 +22,7 @@ def point_distance(point1, point2):
 
 
 def point_generator(angle, hypo_length):
-    return hypo_length * sin(radians(angle)), hypo_length * cos(radians(angle))
+    return tuple(hypo_length * sin(radians(angle)), hypo_length * cos(radians(angle)))
 
 
 def equation_generator(point1, point2):
@@ -30,15 +30,17 @@ def equation_generator(point1, point2):
     dif_y_1 = point2[1] - point1[1]
     if dif_x_1 == 0:
         return [0, point1[0]]
+    if dif_y_1 == 0:
+        return [point1[1], 0]
     try:
         equation_a = (point2[1] - point1[1]) / (point2[0] - point1[0])
         equation_c = (point2[1] - point1[1]) * point1[0] / (point2[0] - point1[0])
         return [equation_a, equation_c]
     except:
-        print(e)
         print(point1)
         print(point2)
     #return [equation_a, equation_c]
+
 
 def intersection(equation_a_a, equation_a_c, equation_b_a, equation_b_c):
     x = (-equation_a_c + equation_b_c) / (equation_a_a - equation_b_a)
@@ -50,3 +52,4 @@ def intersect_check(line, start, intersect):
     if (line[0][0] < intersect[0] and line[1][0] > intersect[0]) or (line[0][0] > intersect[0] and line[1][0] < intersect[0]):
         if (line[0][1] < intersect[1] and line[1][1] > intersect[1]) or (line[0][1] > intersect[1] and line[1][1] < intersect[1]):
             return True, point_distance(start, intersect)
+    return False, None

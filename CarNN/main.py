@@ -7,7 +7,8 @@ screen = pyg.display.set_mode((1440, 900))
 pyg.display.set_caption("Simulation")
 
 all_sprites = pyg.sprite.Group()
-car = Car(400, 830, track(screen))
+tuples, equations = track(screen)
+car = Car(400, 830, tuples, equations)
 all_sprites.add(car)
 
 run = True
