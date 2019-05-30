@@ -86,7 +86,7 @@ class Car(pyg.sprite.Sprite):
             else:
                 self.speed = 0
         except:
-            None
+            pass
 
         try:
             if self.xSpeed > 0.01 or self.xSpeed < -0.01:
@@ -94,14 +94,14 @@ class Car(pyg.sprite.Sprite):
             else:
                 self.xSpeed = 0
         except:
-            None
+            pass
         try:
             if self.ySpeed > 0.01 or self.ySpeed < -0.01:
                 self.ySpeed = self.ySpeed - self.ySpeed * self.frictionVar
             else:
                 self.ySpeed = 0
         except:
-            None
+            pass
         """
         friction = self.mass * self.gravity * self.frictionVar
         xFriction = -m.sin(speedAngle) * friction
@@ -117,7 +117,7 @@ class Car(pyg.sprite.Sprite):
 
         # check crash, TODO
 
-        self.haveCrashed()
+        #self.haveCrashed()
 
 
     # checking if we've crashed
@@ -127,15 +127,35 @@ class Car(pyg.sprite.Sprite):
         #TODO
         #return False
 
-        # implementing rays
-        front_ray = None
-        front_right_ray = None
-        right_ray = None
-        back_right_ray = None
-        back_ray = None
-        back_left_ray = None
-        left_ray = None
-        front_left_ray = None
+        half_height = self.height / 2
+        half_width = self.width / 2
+        # implementing
+        # F
+        # F_R
+        # R
+        # B_R
+        # B
+        # B_L
+        # L
+        # F_L
+        angles = [
+        self.angle,
+        self.angle - 90 + 26.565,
+        self.angle - 90,
+        self.angle - 180 + 26.565,
+        self.angle - 180,
+        self.angle - 270 + 26.565,
+        self.angle - 270,
+        self.angle + 26.565
+        ]
+        front_ray = ((self.x, self.y), ())
+        front_right_ray = ((self.x, self.y), ())
+        right_ray = ((self.x, self.y), ())
+        back_right_ray = ((self.x, self.y), ())
+        back_ray = ((self.x, self.y), ())
+        back_left_ray = ((self.x, self.y), ())
+        left_ray = ((self.x, self.y), ())
+        front_left_ray = ((self.x, self.y), ())
 
         closestValue = [0, 0, 0, 0, 0, 0, 0, 0]
 

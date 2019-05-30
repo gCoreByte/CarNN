@@ -1,4 +1,5 @@
 import pygame as pyg
+from .util import equation_generator
 
 def track(screen):
     # Create the map. Todd Howard - "It just works."
@@ -20,6 +21,7 @@ def track(screen):
 
     mapguide = [1,5,4,1,5,2,2,1,6,6,1,2,5,2,1,5,4,1]
     tuples = []
+    equations = []
     #mapguide2
     #mapguide3
 
@@ -290,4 +292,6 @@ def track(screen):
                 goingleft = True
                 goingdown = False
                 done = True
-    return tuples
+    for i in tuples:
+        equations.append(equation_generator(i[0], i[1]))
+    print(equations)

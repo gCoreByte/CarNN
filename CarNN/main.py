@@ -29,7 +29,7 @@ while run:
         acceleration += 0.015
     if keys[pyg.K_DOWN]:
         acceleration -= 0.03
-    car.drive(acceleration, turnout, None)
+    car.drive(acceleration, turnout)
     for event in pyg.event.get():
         if event.type == pyg.QUIT:
             run = False
