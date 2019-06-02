@@ -1,5 +1,5 @@
 import pygame as pyg
-from .util import equation_generator, Direction
+from .util import Direction
 
 def track(screen):
     # Create the map. Todd Howard - "It just works."
@@ -20,11 +20,7 @@ def track(screen):
 
 
     mapguide = [1,5,4,1,5,2,2,1,6,6,1,2,5,2,1,5,4,1]
-    state = []
-    mapguide2 = mapguide.copy()
 
-    tuples = []
-    equations = []
     rects = []
     #mapguide2
     #mapguide3
@@ -43,25 +39,21 @@ def track(screen):
     #Checks the direction the road is going and sets parameters accordingly
 
         if goingright:
-            state.append(Direction.RIGHT)
             xmove = 270
             ymove = 0
             ywidth = 90
             xwidth = 0
         if goingup:
-            state.append(Direction.UP)
             xmove = 0
             ymove = -270
             ywidth = 0
             xwidth = 90
         if goingleft:
-            state.append(Direction.LEFT)
             xmove = -270
             ymove = 0
             ywidth = -90
             xwidth = 0
         if goingdown:
-            state.append(Direction.DOWN)
             xmove = 0
             ymove = 270
             ywidth = 0
@@ -71,8 +63,6 @@ def track(screen):
         if build == 1:
             rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + xmove, ymap + ymove), 5))
             rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth), 5))
-            tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-            tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
             xmap = xmap + xmove
             ymap = ymap + ymove
 
@@ -80,8 +70,6 @@ def track(screen):
         if build == 5:
             rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + xmove/2, ymap + ymove/2), 5))
             rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xmove/2 + xwidth, ymap + ymove/2 + ywidth), 5))
-            tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-            tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
             xmap = xmap + xmove/2
             ymap = ymap + ymove/2
 
@@ -90,8 +78,6 @@ def track(screen):
             if goingright:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 90, ymap - 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth + 180, ymap + ywidth - 180), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap + 90
                 ymap = ymap - 90
                 goingup = True
@@ -101,8 +87,6 @@ def track(screen):
             if goingleft and not done:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap - 90, ymap + 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth - 180, ymap + ywidth + 180), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap - 90
                 ymap = ymap + 90
                 goingdown = True
@@ -112,8 +96,6 @@ def track(screen):
             if goingup and not done:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap - 90, ymap - 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth - 180, ymap + ywidth - 180), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap - 90
                 ymap = ymap - 90
                 goingleft = True
@@ -123,8 +105,6 @@ def track(screen):
             if goingdown and not done:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 90, ymap + 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth + 180, ymap + ywidth + 180), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap + 90
                 ymap = ymap + 90
                 goingdown = True
@@ -136,8 +116,6 @@ def track(screen):
             if goingright:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 180, ymap + 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth + 90, ymap + ywidth + 90), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap + 180
                 ymap = ymap + 180
                 goingdown = True
@@ -147,8 +125,6 @@ def track(screen):
             if goingleft and not done:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap - 180, ymap - 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth - 90, ymap + ywidth - 90), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap - 180
                 ymap = ymap - 180
                 goingup = True
@@ -158,8 +134,6 @@ def track(screen):
             if goingup and not done:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap + 180, ymap - 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth + 90, ymap + ywidth - 90), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap + 180
                 ymap = ymap - 180
                 goingright = True
@@ -169,8 +143,6 @@ def track(screen):
             if goingdown and not done:
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap), (xmap - 180, ymap + 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth - 90, ymap + ywidth + 90), 5))
-                tuples.append(((xmap, ymap), (xmap + xmove, ymap + ymove)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xmove + xwidth, ymap + ymove + ywidth)))
                 xmap = xmap - 180
                 ymap = ymap + 180
                 goingup = True
@@ -184,10 +156,6 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + 90, ymap), (xmap + 90, ymap - 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth + 180, ymap + ywidth), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth + 180, ymap + ywidth), (xmap + xwidth + 180, ymap + ywidth - 180), 5))
-                tuples.append(((xmap, ymap), (xmap + 90, ymap)))
-                tuples.append(((xmap + 90, ymap), (xmap + 90, ymap - 90)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth + 180, ymap + ywidth)))
-                tuples.append(((xmap + xwidth + 180, ymap + ywidth), (xmap + xwidth + 180, ymap + ywidth - 180)))
                 ymap = ymap - 90
                 xmap = xmap + 90
                 goingup = True
@@ -199,10 +167,6 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap - 90, ymap), (xmap - 90, ymap + 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth - 180, ymap + ywidth), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth - 180, ymap + ywidth), (xmap + xwidth - 180, ymap + ywidth + 180), 5))
-                tuples.append(((xmap, ymap), (xmap - 90, ymap)))
-                tuples.append(((xmap - 90, ymap), (xmap - 90, ymap + 90)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth - 180, ymap + ywidth)))
-                tuples.append(((xmap + xwidth - 180, ymap + ywidth), (xmap + xwidth - 180, ymap + ywidth + 180)))
                 ymap = ymap + 90
                 xmap = xmap - 90
                 goingdown = True
@@ -214,10 +178,6 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap - 90), (xmap - 90, ymap - 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth - 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth - 180), (xmap + xwidth - 180, ymap + ywidth - 180), 5))
-                tuples.append(((xmap, ymap), (xmap, ymap - 90)))
-                tuples.append(((xmap, ymap - 90), (xmap - 90, ymap - 90)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth - 180)))
-                tuples.append(((xmap + xwidth, ymap + ywidth - 180), (xmap + xwidth - 180, ymap + ywidth - 180)))
                 ymap = ymap - 90
                 xmap = xmap - 90
                 goingleft = True
@@ -229,10 +189,6 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap + 90), (xmap + 90, ymap + 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth + 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth + 180), (xmap + xwidth + 180, ymap + ywidth + 180), 5))
-                tuples.append(((xmap, ymap), (xmap, ymap + 90)))
-                tuples.append(((xmap, ymap + 90), (xmap + 90, ymap + 90)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth + 180)))
-                tuples.append(((xmap + xwidth, ymap + ywidth + 180), (xmap + xwidth + 180, ymap + ywidth + 180)))
                 ymap = ymap + 90
                 xmap = xmap + 90
                 goingright = True
@@ -246,10 +202,6 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + 180, ymap), (xmap + 180, ymap + 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth + 90, ymap + ywidth), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth + 90, ymap + ywidth), (xmap + xwidth + 90, ymap + ywidth + 90), 5))
-                tuples.append(((xmap, ymap), (xmap + 180, ymap)))
-                tuples.append(((xmap + 180, ymap), (xmap + 180, ymap + 180)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth + 90, ymap + ywidth)))
-                tuples.append(((xmap + xwidth + 90, ymap + ywidth), (xmap + xwidth + 90, ymap + ywidth + 90)))
                 ymap = ymap + 180
                 xmap = xmap + 180
                 goingdown = True
@@ -261,10 +213,6 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap - 180, ymap), (xmap - 180, ymap - 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth - 90, ymap + ywidth), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth - 90, ymap + ywidth), (xmap + xwidth - 90, ymap + ywidth - 90), 5))
-                tuples.append(((xmap, ymap), (xmap - 180, ymap)))
-                tuples.append(((xmap - 180, ymap), (xmap - 180, ymap - 180)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth - 90, ymap + ywidth)))
-                tuples.append(((xmap + xwidth - 90, ymap + ywidth), (xmap + xwidth - 90, ymap + ywidth - 90)))
                 ymap = ymap - 180
                 xmap = xmap - 180
                 goingup = True
@@ -276,10 +224,6 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap - 180), (xmap + 180, ymap - 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth - 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth - 90), (xmap + xwidth + 90, ymap + ywidth - 90), 5))
-                tuples.append(((xmap, ymap), (xmap, ymap - 180)))
-                tuples.append(((xmap, ymap - 180), (xmap + 180, ymap - 180)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth - 90)))
-                tuples.append(((xmap + xwidth, ymap + ywidth - 90), (xmap + xwidth + 90, ymap + ywidth - 90)))
                 ymap = ymap - 180
                 xmap = xmap + 180
                 goingright = True
@@ -291,15 +235,9 @@ def track(screen):
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap, ymap + 180), (xmap - 180, ymap + 180), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth + 90), 5))
                 rects.append(pyg.draw.line(screen, (102, 102, 153), (xmap + xwidth, ymap + ywidth + 90), (xmap + xwidth - 90, ymap + ywidth + 90), 5))
-                tuples.append(((xmap, ymap), (xmap, ymap + 180)))
-                tuples.append(((xmap, ymap + 180), (xmap - 180, ymap + 180)))
-                tuples.append(((xmap + xwidth, ymap + ywidth), (xmap + xwidth, ymap + ywidth + 90)))
-                tuples.append(((xmap + xwidth, ymap + ywidth + 90), (xmap + xwidth - 90, ymap + ywidth + 90)))
                 ymap = ymap + 180
                 xmap = xmap - 180
                 goingleft = True
                 goingdown = False
                 done = True
-    for i in tuples:
-        equations.append(equation_generator(i[0], i[1]))
-    return tuples, equations, rects, mapguide2, state
+    return rects
