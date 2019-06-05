@@ -2,13 +2,14 @@ import math as m
 import pygame as pyg
 import os
 from .util import intersection
+from .AI import AI
 
 class Car(pyg.sprite.Sprite):
 
     #initialize variables
 
     def __init__(self, x, y, rects, screen, angle = 270):
-
+        self.AI = AI()
         #current pos
         self.startX = x
         self.startY = y
@@ -33,7 +34,6 @@ class Car(pyg.sprite.Sprite):
         self.mass = 7 # Saints Number
         self.gravity = 10
         self.basefriction = 1
-
         pyg.sprite.Sprite.__init__(self)
         self.image = None
         self.imgclean = pyg.image.load(os.path.join('game', 'car.png')).convert()
@@ -48,25 +48,18 @@ class Car(pyg.sprite.Sprite):
             self.image = pyg.transform.rotate(self.imgclean, self.angle)
             self.rect = self.image.get_rect(center = (self.x, self.y))
 
-
-
     def drive(self, acceleration, turnout):
         #turn
         if turnout == 0:
             self.angle += self.angularSpeed
         elif turnout == 1:
             self.angle -= self.angularSpeed
-
         #meil pole ju vaja resultanti??
-
         # find new speed
         self.speed += acceleration
         self.xSpeed += -m.sin(m.radians(self.angle)) * self.speed
         self.ySpeed += -m.cos(m.radians(self.angle)) * self.speed
-
-
         # speedAngle = m.atan(self.xSpeed / self.ySpeed)
-
         # apply friction
         #print(self.speed)
         try:
@@ -76,7 +69,6 @@ class Car(pyg.sprite.Sprite):
                 self.speed = 0
         except:
             pass
-
         try:
             if self.xSpeed > 0.01 or self.xSpeed < -0.01:
                 self.xSpeed = self.xSpeed - self.xSpeed * self.frictionVar
@@ -93,10 +85,10 @@ class Car(pyg.sprite.Sprite):
             pass
         self.x += self.xSpeed
         self.y += self.ySpeed
-
         # check crash, TODO
-
         if self.haveCrashed(self.screen):
+            print (self.AI.currentScore)
+            self.AI.newRun()
             self.x = self.startX
             self.y = self.startY
             self.speed = 0

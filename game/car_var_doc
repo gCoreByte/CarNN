@@ -1,9 +1,0 @@
-x - x koordinaat
-y - y koordinaat
-xSpeed - kiirus x telje suhtes
-ySpeed - kiirus y telje suhtes
-maxAcceleration - maksimaalne kiirendus
-maxSpeed - maksimaalne kiirus
-angle - auto nurk hetkel
-angularSpeed - nurkkiirus (saame närvivõrgust)
-maxAngularSpeed - maksimaalne nurkkiirus

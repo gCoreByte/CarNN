@@ -242,3 +242,4 @@ def track(screen):
                 goingdown = False
                 done = True
     return rects
+
